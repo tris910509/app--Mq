@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aplikasi Kasir</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <h1>Aplikasi Kasir</h1>
+  </header>
+  <main>
+    <!-- Navigasi -->
+    <nav>
+      <button onclick="showSection('produk')">Produk</button>
+      <button onclick="showSection('kategori')">Kategori</button>
+      <button onclick="showSection('transaksi')">Transaksi</button>
+      <button onclick="showSection('laporan')">Laporan</button>
+      <button onclick="showSection('pelanggan')">Pelanggan</button>
+      <button onclick="showSection('suplayer')">Suplayer</button>
+    </nav>
+
+    <!-- Konten Dinamis -->
+    <section id="produk" class="hidden">
+      <h2>Manajemen Produk</h2>
+      <form id="produkForm">
+        <input type="text" id="namaProduk" placeholder="Nama Produk" required>
+        <input type="number" id="hargaProduk" placeholder="Harga Produk" required>
+        <select id="kategoriProduk"></select>
+        <button type="submit">Tambah Produk</button>
+      </form>
+      <table id="produkTable"></table>
+    </section>
+
+    <section id="kategori" class="hidden">
+      <h2>Manajemen Kategori</h2>
+      <form id="kategoriForm">
+        <input type="text" id="namaKategori" placeholder="Nama Kategori" required>
+        <button type="submit">Tambah Kategori</button>
+      </form>
+      <ul id="kategoriList"></ul>
+    </section>
+
+    <!-- Bagian lainnya: Transaksi, Laporan, Pelanggan, Suplayer -->
+    <!-- Konten sesuai permintaan, ditambahkan di sini -->
+  </main>
+  <footer>
+    <p>&copy; 2024 Aplikasi Kasir</p>
+  </footer>
+  <script src="script.js"></script>
+</body>
+</html>
