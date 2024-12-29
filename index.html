@@ -43,7 +43,40 @@
     </section>
 
     <!-- Bagian lainnya: Transaksi, Laporan, Pelanggan, Suplayer -->
+<section id="transaksi" class="hidden">
+  <h2>Transaksi</h2>
+  <form id="transaksiForm">
+    <select id="produkTransaksi"></select>
+    <input type="number" id="jumlahTransaksi" placeholder="Jumlah" required>
+    <button type="submit">Tambah ke Keranjang</button>
+  </form>
+  <h3>Keranjang</h3>
+  <table id="keranjangTable">
+    <tr>
+      <th>Produk</th>
+      <th>Harga</th>
+      <th>Jumlah</th>
+      <th>Total</th>
+      <th>Aksi</th>
+    </tr>
+  </table>
+  <h3>Total: <span id="totalTransaksi">0</span></h3>
+  <button onclick="selesaikanTransaksi()">Selesaikan Transaksi</button>
+</section>
+
+<section id="laporan" class="hidden">
+  <h2>Laporan Transaksi</h2>
+  <table id="laporanTable">
+    <tr>
+      <th>Tanggal</th>
+      <th>Item</th>
+      <th>Total</th>
+    </tr>
+  </table>
+</section>
+    
     <!-- Konten sesuai permintaan, ditambahkan di sini -->
+    
   </main>
   <footer>
     <p>&copy; 2024 Aplikasi Kasir</p>
