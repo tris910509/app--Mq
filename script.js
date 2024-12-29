@@ -209,3 +209,25 @@ function loadLaporan() {
 
 document.addEventListener('DOMContentLoaded', loadLaporan);
 
+
+function cetakStruk() {
+  const laporan = getFromStorage('laporan');
+  const lastTransaksi = laporan[laporan.length - 1];
+
+  if (!lastTransaksi) {
+    alert('Tidak ada transaksi untuk dicetak!');
+    return;
+  }
+
+  const struk = `
+    ===== STRUK PEMBELIAN =====
+    Tanggal: ${lastTransaksi.tanggal}
+    ---------------------------
+    ${lastTransaksi.items.map(item => `${item.nama} x${item.jumlah} - Rp${item.total}`).join('\n')}
+    ---------------------------
+    Total: Rp${lastTransaksi.total}
+    ============================
+  `;
+  alert(struk); // Alternatif: Cetak di printer
+}
+
