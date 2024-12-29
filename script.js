@@ -106,3 +106,106 @@ function deleteProduk(index) {
 
 produkForm.addEventListener('submit', addProduk);
 document.addEventListener('DOMContentLoaded', loadProduk);
+
+
+// ** Manajemen Transaksi **
+const transaksiForm = document.getElementById('transaksiForm');
+const keranjangTable = document.getElementById('keranjangTable');
+const produkTransaksi = document.getElementById('produkTransaksi');
+let keranjang = [];
+
+function loadProdukTransaksi() {
+  const produks = getFromStorage('produks');
+  produkTransaksi.innerHTML = '';
+  produks.forEach((produk, index) => {
+    const option = document.createElement('option');
+    option.value = index;
+    option.textContent = `${produk.nama} - Rp${produk.harga}`;
+    produkTransaksi.appendChild(option);
+  });
+}
+
+function tambahKeKeranjang(event) {
+  event.preventDefault();
+  const produkIndex = produkTransaksi.value;
+  const jumlah = parseInt(document.getElementById('jumlahTransaksi').value);
+  const produk = getFromStorage('produks')[produkIndex];
+
+  // Tambahkan ke keranjang
+  keranjang.push({
+    nama: produk.nama,
+    harga: produk.harga,
+    jumlah,
+    total: produk.harga * jumlah,
+  });
+
+  tampilkanKeranjang();
+}
+
+function tampilkanKeranjang() {
+  keranjangTable.innerHTML = '<tr><th>Produk</th><th>Harga</th><th>Jumlah</th><th>Total</th><th>Aksi</th></tr>';
+  let totalTransaksi = 0;
+  keranjang.forEach((item, index) => {
+    const row = keranjangTable.insertRow();
+    row.innerHTML = `
+      <td>${item.nama}</td>
+      <td>${item.harga}</td>
+      <td>${item.jumlah}</td>
+      <td>${item.total}</td>
+      <td><button onclick="hapusDariKeranjang(${index})">Hapus</button></td>
+    `;
+    totalTransaksi += item.total;
+  });
+  document.getElementById('totalTransaksi').textContent = totalTransaksi;
+}
+
+function hapusDariKeranjang(index) {
+  keranjang.splice(index, 1);
+  tampilkanKeranjang();
+}
+
+function selesaikanTransaksi() {
+  if (keranjang.length === 0) {
+    alert('Keranjang kosong!');
+    return;
+  }
+
+  const laporan = getFromStorage('laporan');
+  const totalTransaksi = keranjang.reduce((acc, item) => acc + item.total, 0);
+
+  laporan.push({
+    tanggal: new Date().toLocaleString(),
+    items: keranjang,
+    total: totalTransaksi,
+  });
+
+  saveToStorage('laporan', laporan);
+
+  // Reset keranjang
+  keranjang = [];
+  tampilkanKeranjang();
+
+  alert('Transaksi berhasil diselesaikan!');
+  loadLaporan();
+}
+
+transaksiForm.addEventListener('submit', tambahKeKeranjang);
+document.addEventListener('DOMContentLoaded', loadProdukTransaksi);
+
+// ** Laporan Transaksi **
+function loadLaporan() {
+  const laporan = getFromStorage('laporan');
+  const laporanTable = document.getElementById('laporanTable');
+  laporanTable.innerHTML = '<tr><th>Tanggal</th><th>Item</th><th>Total</th></tr>';
+  laporan.forEach(entry => {
+    const row = laporanTable.insertRow();
+    row.innerHTML = `
+      <td>${entry.tanggal}</td>
+      <td>${entry.items.map(item => `${item.nama} (${item.jumlah})`).join(', ')}</td>
+      <td>${entry.total}</td>
+    `;
+  });
+}
+
+document.addEventListener('DOMContentLoaded', loadLaporan);
+
